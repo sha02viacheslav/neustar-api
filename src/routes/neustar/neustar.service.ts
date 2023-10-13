@@ -16,17 +16,16 @@ export class NeustarService {
     const qb = this.tableRepo.createQueryBuilder('NeustarOrderInsights');
 
     if (start) {
-      qb.andWhere(`TO_CHAR(startdate, 'YYYY-MM-DD') >= '${start}'`);
+      qb.andWhere(`TO_CHAR(start_time, 'YYYY-MM-DD') >= '${start}'`);
     }
     if (end) {
-      qb.andWhere(`TO_CHAR(enddate, 'YYYY-MM-DD') <= '${end}'`);
+      qb.andWhere(`TO_CHAR(end_time, 'YYYY-MM-DD') <= '${end}'`);
     }
-    // TODO: update search fields
-    // if (search) {
-    //   qb.andWhere(
-    //     `(CAST(LconSummaryReport.sr AS text) LIKE '${search}%' OR CAST(LconSummaryReport.serviceorderid AS text) LIKE '${search}%' OR LconSummaryReport.carrier LIKE '%${search}%' OR LconSummaryReport.status LIKE '%${search}%')`,
-    //   );
-    // }
+    if (search) {
+      qb.andWhere(
+        `(NeustarOrderInsights.carrierid LIKE '%${search}%' OR NeustarOrderInsights.tracker_file_path LIKE '%${search}%')`,
+      );
+    }
     if (rawWhere) {
       qb.andWhere(rawWhere);
     }

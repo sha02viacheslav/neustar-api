@@ -1,7 +1,8 @@
-import { Controller, Get, Response, UseGuards, Query, HttpStatus, Param } from '@nestjs/common';
+import { Controller, Get, UseGuards, Query, HttpStatus, Param, Post } from '@nestjs/common';
 import { AuthenticatedGuard } from 'src/guards/authenticated.guard';
 import { NeustarService } from './neustar.service';
 import { ApiResponse, Filter, Pagination } from '../../@core/models';
+import { NeustarFalloutRetry } from '../../entities/neustarfalloutretry.entity';
 import { NeustarOrderInsights } from '../../entities/neustarorderinsights.entity';
 
 @Controller('neustar')
@@ -62,6 +63,36 @@ export class NeustarController {
         success: true,
         statusCode: HttpStatus.OK,
         result: record,
+      };
+    } catch (err) {
+      return {
+        success: false,
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: [err.message],
+      };
+    }
+  }
+
+  @UseGuards(AuthenticatedGuard)
+  @Post('retry-fallout/:id')
+  async retryFallout(@Param('id') id: number): Promise<ApiResponse<NeustarFalloutRetry>> {
+    try {
+      const record = await this.neustarService.getRecord(id);
+
+      if (!record) {
+        return {
+          success: false,
+          statusCode: HttpStatus.NOT_FOUND,
+          message: ['Record not found'],
+        };
+      }
+
+      const falloutRetry = await this.neustarService.retryFallout(id);
+
+      return {
+        success: true,
+        statusCode: HttpStatus.OK,
+        result: falloutRetry,
       };
     } catch (err) {
       return {

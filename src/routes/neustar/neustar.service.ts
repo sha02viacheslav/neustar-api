@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Filter, Pagination } from '../../@core/models';
+import { NeustarFalloutRetry } from '../../entities/neustarfalloutretry.entity';
 import { NeustarOrderInsights } from '../../entities/neustarorderinsights.entity';
 
 @Injectable()
@@ -9,6 +10,8 @@ export class NeustarService {
   constructor(
     @InjectRepository(NeustarOrderInsights)
     private tableRepo: Repository<NeustarOrderInsights>,
+    @InjectRepository(NeustarFalloutRetry)
+    private falloutRetryRepo: Repository<NeustarFalloutRetry>,
   ) {}
 
   async getPostgresDataWithRawQuery(filter: Filter): Promise<Pagination<NeustarOrderInsights>> {
@@ -44,13 +47,12 @@ export class NeustarService {
 
     const [data, totalCount] = await qb.getManyAndCount();
 
-    const result = {
+    return {
       pageIndex: pageIndex,
       pageSize: pageSize,
       totalCount: totalCount,
       data: data,
     };
-    return result;
   }
 
   async getPostgresCountWithRawQuery(filter: Filter) {
@@ -60,15 +62,19 @@ export class NeustarService {
       qb.andWhere(rawWhere);
     }
     if (start) {
-      qb.andWhere(`TO_CHAR(startdate, 'YYYY-MM-DD') >= '${start}'`);
+      qb.andWhere(`TO_CHAR(start_time, 'YYYY-MM-DD') >= '${start}'`);
     }
     if (end) {
-      qb.andWhere(`TO_CHAR(enddate, 'YYYY-MM-DD') <= '${end}'`);
+      qb.andWhere(`TO_CHAR(end_time, 'YYYY-MM-DD') <= '${end}'`);
     }
     return await qb.getCount();
   }
 
   async getRecord(id: number) {
     return await this.tableRepo.findOne({ where: { id: id } });
+  }
+
+  async retryFallout(previousAttemptId: number) {
+    return await this.falloutRetryRepo.save({ previous_attempt_id: previousAttemptId });
   }
 }

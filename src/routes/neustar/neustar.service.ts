@@ -35,15 +35,12 @@ export class NeustarService {
     if (pageIndex != undefined && pageSize != undefined) {
       qb.skip(pageSize * (pageIndex - 1));
     }
-    // TODO: update sort/order by
-    // if (sort === 'enddate') {
-    //   qb.orderBy('enddate', order == 'asc' ? 'ASC' : 'DESC');
-    // } else if (sort === 'orderacceptancedate') {
-    //   qb.orderBy('orderacceptancedate', order == 'asc' ? 'ASC' : 'DESC');
-    // } else {
-    //   qb.orderBy(`LconSummaryReport.${sort}`, order == 'asc' ? 'ASC' : 'DESC');
-    // }
-    // qb.orderBy(`LconSummaryReport.id`, 'DESC');
+    if (sort === 'start_time') {
+      qb.orderBy('start_time', order == 'asc' ? 'ASC' : 'DESC');
+    } else if (sort) {
+      qb.orderBy(`NeustarOrderInsights.${sort}`, order == 'asc' ? 'ASC' : 'DESC');
+    }
+    qb.addOrderBy(`NeustarOrderInsights.id`, 'DESC');
 
     const [data, totalCount] = await qb.getManyAndCount();
 

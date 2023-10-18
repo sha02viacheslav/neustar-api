@@ -3,10 +3,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { NeustarController } from './neustar.controller';
 import { NeustarService } from './neustar.service';
 import { NeustarFalloutRetry } from '../../entities/neustarfalloutretry.entity';
-import { NeustarOrderInsights } from '../../entities/neustarorderinsights.entity';
+import { NeustarTemplateUpload } from '../../entities/neustartemplateupload';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([NeustarOrderInsights, NeustarFalloutRetry])],
+  imports: [TypeOrmModule.forFeature([NeustarTemplateUpload, NeustarFalloutRetry])],
   controllers: [NeustarController],
   providers: [NeustarService],
 })

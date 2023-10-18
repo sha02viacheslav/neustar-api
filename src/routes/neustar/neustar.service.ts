@@ -3,20 +3,20 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Filter, Pagination } from '../../@core/models';
 import { NeustarFalloutRetry } from '../../entities/neustarfalloutretry.entity';
-import { NeustarOrderInsights } from '../../entities/neustarorderinsights.entity';
+import { NeustarTemplateUpload } from '../../entities/neustartemplateupload';
 
 @Injectable()
 export class NeustarService {
   constructor(
-    @InjectRepository(NeustarOrderInsights)
-    private tableRepo: Repository<NeustarOrderInsights>,
+    @InjectRepository(NeustarTemplateUpload)
+    private tableRepo: Repository<NeustarTemplateUpload>,
     @InjectRepository(NeustarFalloutRetry)
     private falloutRetryRepo: Repository<NeustarFalloutRetry>,
   ) {}
 
-  async getPostgresDataWithRawQuery(filter: Filter): Promise<Pagination<NeustarOrderInsights>> {
+  async getPostgresDataWithRawQuery(filter: Filter): Promise<Pagination<NeustarTemplateUpload>> {
     const { pageSize, pageIndex, search, sort, order, start, end, rawWhere } = filter;
-    const qb = this.tableRepo.createQueryBuilder('NeustarOrderInsights');
+    const qb = this.tableRepo.createQueryBuilder('NeustarTemplateUpload');
 
     if (start) {
       qb.andWhere(`TO_CHAR(start_time, 'YYYY-MM-DD') >= '${start}'`);
@@ -26,7 +26,7 @@ export class NeustarService {
     }
     if (search) {
       qb.andWhere(
-        `(NeustarOrderInsights.carrierid LIKE '%${search}%' OR NeustarOrderInsights.tracker_file_path LIKE '%${search}%')`,
+        `(NeustarTemplateUpload.carrierid LIKE '%${search}%' OR NeustarTemplateUpload.tracker_file_path LIKE '%${search}%')`,
       );
     }
     if (rawWhere) {
@@ -41,9 +41,9 @@ export class NeustarService {
     if (sort === 'start_time') {
       qb.orderBy('start_time', order == 'asc' ? 'ASC' : 'DESC');
     } else if (sort) {
-      qb.orderBy(`NeustarOrderInsights.${sort}`, order == 'asc' ? 'ASC' : 'DESC');
+      qb.orderBy(`NeustarTemplateUpload.${sort}`, order == 'asc' ? 'ASC' : 'DESC');
     }
-    qb.addOrderBy(`NeustarOrderInsights.id`, 'DESC');
+    qb.addOrderBy(`NeustarTemplateUpload.rowid`, 'DESC');
 
     const [data, totalCount] = await qb.getManyAndCount();
 
@@ -57,7 +57,7 @@ export class NeustarService {
 
   async getPostgresCountWithRawQuery(filter: Filter) {
     const { start, end, rawWhere } = filter;
-    const qb = this.tableRepo.createQueryBuilder('NeustarOrderInsights');
+    const qb = this.tableRepo.createQueryBuilder('NeustarTemplateUpload');
     if (rawWhere) {
       qb.andWhere(rawWhere);
     }
@@ -71,7 +71,7 @@ export class NeustarService {
   }
 
   async getRecord(id: number) {
-    return await this.tableRepo.findOne({ where: { id: id } });
+    return await this.tableRepo.findOne({ where: { rowid: id } });
   }
 
   async retryFallout(previousAttemptId: number) {

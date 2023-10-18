@@ -3,7 +3,7 @@ import { AuthenticatedGuard } from 'src/guards/authenticated.guard';
 import { NeustarService } from './neustar.service';
 import { ApiResponse, Filter, Pagination } from '../../@core/models';
 import { NeustarFalloutRetry } from '../../entities/neustarfalloutretry.entity';
-import { NeustarOrderInsights } from '../../entities/neustarorderinsights.entity';
+import { NeustarTemplateUpload } from '../../entities/neustartemplateupload';
 
 @Controller('neustar')
 export class NeustarController {
@@ -11,7 +11,7 @@ export class NeustarController {
 
   @UseGuards(AuthenticatedGuard)
   @Get('postgresdata')
-  async getPostgresData(@Query() query: Filter): Promise<ApiResponse<Pagination<NeustarOrderInsights>>> {
+  async getPostgresData(@Query() query: Filter): Promise<ApiResponse<Pagination<NeustarTemplateUpload>>> {
     try {
       return {
         success: true,
@@ -47,7 +47,7 @@ export class NeustarController {
 
   @UseGuards(AuthenticatedGuard)
   @Get(':id')
-  async getRecord(@Param('id') id: number): Promise<ApiResponse<NeustarOrderInsights>> {
+  async getRecord(@Param('id') id: number): Promise<ApiResponse<NeustarTemplateUpload>> {
     try {
       const record = await this.neustarService.getRecord(id);
 

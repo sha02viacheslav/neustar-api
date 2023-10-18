@@ -1,11 +1,9 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-// TODO: update primary key
-
-@Entity('neustarorderinsights')
-export class NeustarOrderInsights {
+@Entity('neustartemplateupload')
+export class NeustarTemplateUpload {
   @PrimaryGeneratedColumn()
-  id: number;
+  rowid: number;
 
   @Column('text')
   carrierid: string;
@@ -16,17 +14,20 @@ export class NeustarOrderInsights {
   @Column('text')
   template_upload_status: string;
 
-  @Column('text')
-  total_count: string;
+  @Column()
+  total_count: number;
 
-  @Column('text')
-  success_count: string;
+  @Column()
+  invalid_pon_count: number;
 
-  @Column('text')
-  error_count: string;
+  @Column()
+  success_count: number;
 
-  @Column('text')
-  validation_count: string;
+  @Column()
+  error_count: number;
+
+  @Column()
+  validation_count: number;
 
   @Column('text')
   validation_result: string;
@@ -43,15 +44,12 @@ export class NeustarOrderInsights {
   @Column('text')
   exception_logs: string;
 
-  @Column('text')
-  start_time: string;
+  @Column()
+  start_time: Date;
 
-  @Column('text')
-  end_time: string;
+  @Column()
+  end_time: Date;
 
-  @Column('text')
+  @Column()
   execution_time: string;
-
-  @Column('text')
-  invalid_pon_count: string;
 }

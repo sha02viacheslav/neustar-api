@@ -9,12 +9,14 @@ import { DatabaseModule } from './database.module';
 import { AuthController } from './routes/auth/auth.controller';
 import { AuthModule } from './routes/auth/auth.module';
 import { NeustarModule } from './routes/neustar/neustar.module';
+import { TrackerMappingModule } from './routes/tracker-mapping/tracker-mapping.module';
 
 @Module({
   imports: [
     DatabaseModule,
     AuthModule,
     NeustarModule,
+    TrackerMappingModule,
     MongooseModule.forRootAsync({
       useClass: MongooseConfigService,
     }),

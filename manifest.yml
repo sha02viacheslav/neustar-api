@@ -1,7 +1,7 @@
 ---
 applications:
   - name: dashboard-template-api
-    path: ./dist
+    path: ./
     memory: 256MB
     disk_quota: 1GB
     instances: 1

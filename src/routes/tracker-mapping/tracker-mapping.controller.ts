@@ -43,7 +43,6 @@ export class TrackerMappingController {
   @UseGuards(AuthenticatedGuard)
   @Get()
   async getTrackerMappings(@Query() query: Filter): Promise<ApiResponse<Pagination<NeustarTrackerMapping>>> {
-    console.log(query);
     try {
       return {
         success: true,

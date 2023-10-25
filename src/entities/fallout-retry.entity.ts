@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { NeustarTemplateUpload } from './neustartemplateupload';
+import { TemplateUpload } from './template-upload';
 
 @Entity('neustarfalloutretry')
 export class NeustarFalloutRetry {
@@ -9,7 +9,7 @@ export class NeustarFalloutRetry {
   @Column()
   previous_attempt_id: number;
 
-  @ManyToOne(() => NeustarTemplateUpload)
+  @ManyToOne(() => TemplateUpload)
   @JoinColumn({ name: 'previous_attempt_id', referencedColumnName: 'rowid' })
-  neustarOrderInsights: NeustarTemplateUpload;
+  neustarTemplateUpload: TemplateUpload;
 }

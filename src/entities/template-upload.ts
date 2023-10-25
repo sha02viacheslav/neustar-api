@@ -1,7 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { NeustarFalloutRetry } from './fallout-retry.entity';
 
 @Entity('neustartemplateupload')
-export class NeustarTemplateUpload {
+export class TemplateUpload {
   @PrimaryGeneratedColumn()
   rowid: number;
 
@@ -52,4 +53,7 @@ export class NeustarTemplateUpload {
 
   @Column()
   execution_time: string;
+
+  @OneToMany(() => NeustarFalloutRetry, (neustarFalloutRetry) => neustarFalloutRetry.neustarTemplateUpload)
+  falloutRetrys: NeustarFalloutRetry[];
 }

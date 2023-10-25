@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { TrackerMappingDto } from '../../@core/dto';
 import { Filter, Pagination } from '../../@core/models';
-import { NeustarTrackerMapping } from '../../entities/neustartrackermapping.entity';
+import { NeustarTrackerMapping } from '../../entities/tracker-mapping.entity';
 
 @Injectable()
 export class TrackerMappingService {

@@ -3,7 +3,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthenticatedGuard } from 'src/guards/authenticated.guard';
 import { TrackerUploadService } from './tracker-upload.service';
 import { ApiResponse } from '../../@core/models';
-import { NeustarTrackerUpload } from '../../entities/neustar-uploads.entity';
+import { NeustarTrackerUpload } from '../../entities/uploads.entity';
 import { TrackerMappingService } from '../tracker-mapping/tracker-mapping.service';
 
 @Controller('tracker-upload')

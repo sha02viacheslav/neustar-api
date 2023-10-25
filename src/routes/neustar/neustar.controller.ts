@@ -2,8 +2,8 @@ import { Controller, Get, UseGuards, Query, HttpStatus, Param, Post } from '@nes
 import { AuthenticatedGuard } from 'src/guards/authenticated.guard';
 import { NeustarService } from './neustar.service';
 import { ApiResponse, Filter, Pagination } from '../../@core/models';
-import { NeustarFalloutRetry } from '../../entities/neustarfalloutretry.entity';
-import { NeustarTemplateUpload } from '../../entities/neustartemplateupload';
+import { NeustarFalloutRetry } from '../../entities/fallout-retry.entity';
+import { TemplateUpload } from '../../entities/template-upload';
 
 @Controller('neustar')
 export class NeustarController {
@@ -11,7 +11,7 @@ export class NeustarController {
 
   @UseGuards(AuthenticatedGuard)
   @Get('postgresdata')
-  async getPostgresData(@Query() query: Filter): Promise<ApiResponse<Pagination<NeustarTemplateUpload>>> {
+  async getPostgresData(@Query() query: Filter): Promise<ApiResponse<Pagination<TemplateUpload>>> {
     try {
       return {
         success: true,
@@ -47,7 +47,7 @@ export class NeustarController {
 
   @UseGuards(AuthenticatedGuard)
   @Get(':id')
-  async getRecord(@Param('id') id: number): Promise<ApiResponse<NeustarTemplateUpload>> {
+  async getRecord(@Param('id') id: number): Promise<ApiResponse<TemplateUpload>> {
     try {
       const record = await this.neustarService.getRecord(id);
 

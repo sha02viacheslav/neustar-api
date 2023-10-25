@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { NeustarTrackerMapping } from './neustartrackermapping.entity';
+import { NeustarTrackerMapping } from './tracker-mapping.entity';
 
 @Entity('neustartrackerupload')
 export class NeustarTrackerUpload {

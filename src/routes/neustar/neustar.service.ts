@@ -2,21 +2,23 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Filter, Pagination } from '../../@core/models';
-import { NeustarFalloutRetry } from '../../entities/neustarfalloutretry.entity';
-import { NeustarTemplateUpload } from '../../entities/neustartemplateupload';
+import { NeustarFalloutRetry } from '../../entities/fallout-retry.entity';
+import { TemplateUpload } from '../../entities/template-upload';
 
 @Injectable()
 export class NeustarService {
   constructor(
-    @InjectRepository(NeustarTemplateUpload)
-    private tableRepo: Repository<NeustarTemplateUpload>,
+    @InjectRepository(TemplateUpload)
+    private tableRepo: Repository<TemplateUpload>,
     @InjectRepository(NeustarFalloutRetry)
     private falloutRetryRepo: Repository<NeustarFalloutRetry>,
   ) {}
 
-  async getPostgresDataWithRawQuery(filter: Filter): Promise<Pagination<NeustarTemplateUpload>> {
+  async getPostgresDataWithRawQuery(filter: Filter): Promise<Pagination<TemplateUpload>> {
     const { pageSize, pageIndex, search, sort, order, start, end, rawWhere } = filter;
-    const qb = this.tableRepo.createQueryBuilder('NeustarTemplateUpload');
+    const qb = this.tableRepo
+      .createQueryBuilder('templateUpload')
+      .leftJoinAndSelect(`templateUpload.falloutRetrys`, `falloutRetrys`, `retry_attempted = false`);
 
     if (start) {
       qb.andWhere(`TO_CHAR(start_time, 'YYYY-MM-DD') >= '${start}'`);
@@ -26,7 +28,7 @@ export class NeustarService {
     }
     if (search) {
       qb.andWhere(
-        `(NeustarTemplateUpload.carrierid LIKE '%${search}%' OR NeustarTemplateUpload.tracker_file_path LIKE '%${search}%')`,
+        `(templateUpload.carrierid LIKE '%${search}%' OR templateUpload.tracker_file_path LIKE '%${search}%')`,
       );
     }
     if (rawWhere) {
@@ -39,11 +41,11 @@ export class NeustarService {
       qb.skip(pageSize * (pageIndex - 1));
     }
     if (sort === 'start_time') {
-      qb.orderBy('start_time', order == 'asc' ? 'ASC' : 'DESC');
+      qb.orderBy('templateUpload.start_time', order == 'asc' ? 'ASC' : 'DESC');
     } else if (sort) {
-      qb.orderBy(`NeustarTemplateUpload.${sort}`, order == 'asc' ? 'ASC' : 'DESC');
+      qb.orderBy(`templateUpload.${sort}`, order == 'asc' ? 'ASC' : 'DESC');
     }
-    qb.addOrderBy(`NeustarTemplateUpload.rowid`, 'DESC');
+    qb.addOrderBy(`templateUpload.rowid`, 'DESC');
 
     const [data, totalCount] = await qb.getManyAndCount();
 

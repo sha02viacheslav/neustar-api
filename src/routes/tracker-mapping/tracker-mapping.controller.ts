@@ -3,7 +3,7 @@ import { AuthenticatedGuard } from 'src/guards/authenticated.guard';
 import { TrackerMappingService } from './tracker-mapping.service';
 import { TrackerMappingDto } from '../../@core/dto';
 import { ApiResponse, Filter, Pagination } from '../../@core/models';
-import { NeustarTrackerMapping } from '../../entities/neustartrackermapping.entity';
+import { NeustarTrackerMapping } from '../../entities/tracker-mapping.entity';
 
 @Controller('tracker-mapping')
 export class TrackerMappingController {

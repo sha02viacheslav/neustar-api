@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { existsSync, mkdirSync, writeFile } from 'fs';
 import process from 'process';
 import { TrackerUploadDto } from '../../@core/dto';
-import { NeustarTrackerUpload } from '../../entities/neustar-uploads.entity';
+import { NeustarTrackerUpload } from '../../entities/uploads.entity';
 
 @Injectable()
 export class TrackerUploadService {

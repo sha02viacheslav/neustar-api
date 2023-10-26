@@ -1,4 +1,4 @@
-import { Controller, UseGuards, HttpStatus, Post, UseInterceptors, Req, UploadedFile, Param } from '@nestjs/common';
+import { Controller, UseGuards, HttpStatus, Post, UseInterceptors, UploadedFile, Param } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthenticatedGuard } from 'src/guards/authenticated.guard';
 import { TrackerUploadService } from './tracker-upload.service';
@@ -33,12 +33,15 @@ export class TrackerUploadController {
 
       const { buffer, originalname } = file;
 
-      const filePath = await this.trackerUploadService.uploadTracker(buffer, originalname);
-
       return {
         success: true,
         statusCode: HttpStatus.OK,
-        result: await this.trackerUploadService.saveTrackerUpload({ carrier, tracker, path: filePath }),
+        result: await this.trackerUploadService.saveTrackerUpload({
+          carrier,
+          tracker,
+          filename: originalname,
+          file_buffer: buffer,
+        }),
       };
     } catch (err) {
       return {

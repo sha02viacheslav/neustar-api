@@ -13,7 +13,10 @@ export class NeustarTrackerUpload {
   tracker: string;
 
   @Column()
-  path: string;
+  filename: string;
+
+  @Column('bytea')
+  file_buffer: Buffer;
 
   @ManyToOne(() => NeustarTrackerMapping)
   @JoinColumn({ name: 'carrier', referencedColumnName: 'carrier' })

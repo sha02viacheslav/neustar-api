@@ -8,5 +8,8 @@ export class TrackerUploadDto {
   tracker: string;
 
   @IsString()
-  path: string;
+  filename: string;
+
+  @IsString()
+  file_buffer: Buffer;
 }

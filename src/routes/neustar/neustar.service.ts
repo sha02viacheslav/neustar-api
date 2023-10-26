@@ -18,7 +18,7 @@ export class NeustarService {
     const { pageSize, pageIndex, search, sort, order, start, end, rawWhere } = filter;
     const qb = this.tableRepo
       .createQueryBuilder('templateUpload')
-      .leftJoinAndSelect(`templateUpload.falloutRetrys`, `falloutRetrys`, `retry_attempted = false`);
+      .leftJoinAndSelect(`templateUpload.falloutRetrys`, `falloutRetrys`);
 
     if (start) {
       qb.andWhere(`TO_CHAR(start_time, 'YYYY-MM-DD') >= '${start}'`);

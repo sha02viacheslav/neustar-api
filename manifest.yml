@@ -1,6 +1,6 @@
 ---
 applications:
-  - name: dashboard-template-api
+  - name: neustar-order-insights-api
     path: ./
     memory: 256MB
     disk_quota: 1GB

@@ -9,6 +9,12 @@ export class NeustarTrackerMapping {
   tracker: string;
 
   @Column('text')
+  sheet: string;
+
+  @Column('text')
+  header_row: string;
+
+  @Column('text')
   payload_type: string;
 
   @Column('text')

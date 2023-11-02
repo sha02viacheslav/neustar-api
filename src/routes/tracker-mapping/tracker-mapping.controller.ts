@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards, Query, HttpStatus, Param, Post, Body } from '@nestjs/common';
+import { Controller, Get, UseGuards, Query, HttpStatus, Param, Post, Body, Delete } from '@nestjs/common';
 import { AuthenticatedGuard } from 'src/guards/authenticated.guard';
 import { TrackerMappingService } from './tracker-mapping.service';
 import { TrackerMappingDto } from '../../@core/dto';
@@ -113,6 +113,37 @@ export class TrackerMappingController {
         success: true,
         statusCode: HttpStatus.OK,
         result: newTrackerMapping,
+      };
+    } catch (err) {
+      return {
+        success: false,
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: [err.message],
+      };
+    }
+  }
+
+  @UseGuards(AuthenticatedGuard)
+  @Delete(':carrier/:tracker')
+  async deleteTrackerMapping(
+    @Param('carrier') carrier: string,
+    @Param('tracker') tracker: string,
+  ): Promise<ApiResponse<boolean>> {
+    try {
+      const trackerMapping = await this.trackerMappingService.getTrackerMapping(carrier, tracker);
+
+      if (!trackerMapping) {
+        return {
+          success: false,
+          statusCode: HttpStatus.NOT_FOUND,
+          message: ['Tracker mapping not found.'],
+        };
+      }
+
+      return {
+        success: true,
+        statusCode: HttpStatus.OK,
+        result: await this.trackerMappingService.deleteTrackerMapping(carrier, tracker),
       };
     } catch (err) {
       return {

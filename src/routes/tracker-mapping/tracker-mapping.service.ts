@@ -42,4 +42,9 @@ export class TrackerMappingService {
   async saveTrackerMapping(data: TrackerMappingDto) {
     return await this.trackerMappingRepo.save(data);
   }
+
+  async deleteTrackerMapping(carrier: string, tracker: string) {
+    await this.trackerMappingRepo.delete({ carrier: carrier, tracker: tracker });
+    return true;
+  }
 }

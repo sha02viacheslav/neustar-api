@@ -10,7 +10,6 @@ import { AuthController } from './routes/auth/auth.controller';
 import { AuthModule } from './routes/auth/auth.module';
 import { NeustarModule } from './routes/neustar/neustar.module';
 import { TrackerMappingModule } from './routes/tracker-mapping/tracker-mapping.module';
-import { TrackerUploadModule } from './routes/tracker-upload/tracker-upload.module';
 
 @Module({
   imports: [
@@ -18,7 +17,6 @@ import { TrackerUploadModule } from './routes/tracker-upload/tracker-upload.modu
     AuthModule,
     NeustarModule,
     TrackerMappingModule,
-    TrackerUploadModule,
     MongooseModule.forRootAsync({
       useClass: MongooseConfigService,
     }),

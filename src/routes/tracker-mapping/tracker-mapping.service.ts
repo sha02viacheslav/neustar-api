@@ -36,7 +36,7 @@ export class TrackerMappingService {
   }
 
   async getTrackerMapping(carrier: string, tracker: string) {
-    return await this.trackerMappingRepo.findOne({ where: { carrier: carrier, tracker: tracker } });
+    return await this.trackerMappingRepo.findOne({ where: { carrier_id: carrier, tracker: tracker } });
   }
 
   async saveTrackerMapping(data: TrackerMappingDto) {
@@ -44,7 +44,7 @@ export class TrackerMappingService {
   }
 
   async deleteTrackerMapping(carrier: string, tracker: string) {
-    await this.trackerMappingRepo.delete({ carrier: carrier, tracker: tracker });
+    await this.trackerMappingRepo.delete({ carrier_id: carrier, tracker: tracker });
     return true;
   }
 }

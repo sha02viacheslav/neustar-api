@@ -3,10 +3,13 @@ import { Column, Entity, PrimaryColumn } from 'typeorm';
 @Entity('neustartrackermapping')
 export class NeustarTrackerMapping {
   @PrimaryColumn()
-  carrier: string;
+  carrier_id: string;
 
   @PrimaryColumn()
   tracker: string;
+
+  @Column('text')
+  carrier_name: string;
 
   @Column('text')
   sheet: string;
@@ -385,6 +388,12 @@ export class NeustarTrackerMapping {
 
   @Column('text')
   cancel_date: string;
+
+  @Column('text')
+  domain: string;
+
+  @Column('text')
+  acp_path_segment: string;
 
   @Column('text')
   all_headers: string;

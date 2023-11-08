@@ -13,8 +13,8 @@ export class TrackerMappingController {
   @Post()
   async createTrackerMapping(@Body() data: TrackerMappingDto): Promise<ApiResponse<NeustarTrackerMapping>> {
     try {
-      const { carrier, tracker } = data;
-      const trackerMapping = await this.trackerMappingService.getTrackerMapping(carrier, tracker);
+      const { carrier_id, tracker } = data;
+      const trackerMapping = await this.trackerMappingService.getTrackerMapping(carrier_id, tracker);
 
       if (trackerMapping) {
         return {
@@ -107,7 +107,11 @@ export class TrackerMappingController {
         };
       }
 
-      const newTrackerMapping = await this.trackerMappingService.saveTrackerMapping({ ...data, carrier, tracker });
+      const newTrackerMapping = await this.trackerMappingService.saveTrackerMapping({
+        ...data,
+        carrier_id: carrier,
+        tracker,
+      });
 
       return {
         success: true,

@@ -2,7 +2,7 @@ import { IsString } from 'class-validator';
 
 export class TrackerMappingDto {
   @IsString()
-  carrier: string;
+  carrier_id: string;
 
   @IsString()
   tracker: string;

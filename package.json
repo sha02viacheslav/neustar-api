@@ -1,8 +1,8 @@
 {
   "name": "neustar-order-insights-api",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "",
-  "author": "Chace Plaines",
+  "author": "Reya Seda",
   "license": "Comcast",
   "scripts": {
     "prebuild": "rimraf dist",
@@ -77,6 +77,10 @@
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.2.2"
+  },
+  "engines": {
+    "npm": ">=8.0.0 <9.0.0",
+    "node": ">=16.0.0 <17.0.0"
   },
   "jest": {
     "moduleFileExtensions": [

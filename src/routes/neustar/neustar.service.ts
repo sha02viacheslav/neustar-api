@@ -28,7 +28,7 @@ export class NeustarService {
     }
     if (search) {
       qb.andWhere(
-        `(templateUpload.carrierid LIKE '%${search}%' OR templateUpload.tracker_file_path LIKE '%${search}%')`,
+        `(templateUpload.carrierid ILike '%${search}%' OR templateUpload.tracker_file_path ILike '%${search}%')`,
       );
     }
     if (rawWhere) {

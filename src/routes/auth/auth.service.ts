@@ -5,6 +5,8 @@ import * as jwt from 'jsonwebtoken';
 import { SsoConfig } from 'src/config/sso-config';
 import qs = require('querystring');
 import { UsersService } from '../users/users.service';
+import { SsoResponse } from 'src/interfaces/sso-response';
+import { sanitize } from 'src/utility/sanitizer.utils';
 
 @Injectable()
 export class AuthService {
@@ -27,7 +29,7 @@ export class AuthService {
           async (resp) => {
             const userHeader = { Authorization: `Bearer ${resp.data.access_token}` };
             req.session.token = resp.data.id_token;
-            req['user'] = jwt.decode(req.session.token);
+            req['user'] = (await sanitize(jwt.decode(req.session.token))) as SsoResponse;
             req.user.sAMAccountName = req.user.onpremisessamaccountname.toLowerCase();
             this.httpService.get(process.env.GRAPH_ENDPOINT, { headers: userHeader }).subscribe(async (graphResp) => {
               req.user.graph = graphResp.data;
@@ -57,10 +59,10 @@ export class AuthService {
 
   async authCheck(req: any, res: any) {
     if (req.session.token) {
-      const decoded: any = jwt.decode(req.session.token);
+      const decoded: any = (await sanitize(jwt.decode(req.session.token))) as SsoResponse;
       if (req.session.user && decoded) {
         req.session.user.roles = decoded.roles;
-        res.send({ status: 'authenticated', user: req.session.user });
+        res.send({ status: 'authenticated', user: await sanitize(req.session.user) });
       } else {
         if (req.session) {
           req.session.destroy();

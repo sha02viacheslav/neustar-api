@@ -1,8 +1,8 @@
 import MongoStore = require('connect-mongo');
 import * as dotenv from 'dotenv';
 import { SessionOptions } from 'express-session';
-import { Secrets } from '../main';
 import { environment } from 'src/environment';
+import { Secrets } from '../main';
 
 dotenv.config();
 

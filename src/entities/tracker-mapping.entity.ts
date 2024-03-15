@@ -396,5 +396,8 @@ export class NeustarTrackerMapping {
   acp_path_segment: string;
 
   @Column('text')
+  offnet_vendor_name: string;
+
+  @Column('text')
   all_headers: string;
 }
